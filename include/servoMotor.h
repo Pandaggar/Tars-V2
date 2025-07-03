@@ -1,11 +1,12 @@
-#include <Servo.h>
+#include <Arduino.h>
+#include <ESP32_Servo.h>
 
 class customServo
 {
 private:
     int servoPos;
     int servoPin;
-    Servo myservo;
+    Servo myServo;
 public:
     customServo(int Pin,int Pos){
         servoPin = Pin;
@@ -17,16 +18,20 @@ public:
     int getServoPos(){return servoPos;}
     void setServoPos(int pos){servoPos = pos;}
 
-    void linear(int newPos){
+    void attach(){
+        myServo.attach(servoPin);
+    }
+
+    void linear(int newPos,int speed = 10){
         if(newPos <= servoPos){
             for (int pos = servoPos; pos >= newPos; pos--) {
-                myservo.write(servoPin, pos);// set the servo position (degrees)
-                delay(10);
+                myServo.write(pos);// set the servo position (degrees)
+                delay(speed);
             }
         }else{
             for (int pos = servoPos; pos <= newPos; pos++) {
-                myservo.write(servoPin, pos);// set the servo position (degrees)
-                delay(10);
+                myServo.write(pos);// set the servo position (degrees)
+                delay(speed);
             }
         }
         servoPos = newPos;

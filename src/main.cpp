@@ -1,30 +1,26 @@
 #include <Arduino.h>
-#include <Servo.h>
+#include <ESP32_Servo.h>
 #include "servoMotor.h"
-const int servoPin1 = 18;
-int s1Pos;
-Servo myservo = Servo();
-customServo cusServo1 = customServo(servoPin1,0);
-void translate(int servoPin, int position);
+const int servoPin1 = 19;
+const int servoPin2 = 18;
+const int servoPin3 = 5;
+customServo Servo1 = customServo(servoPin1,90);
+customServo Servo2 = customServo(servoPin2,90);
+customServo Servo3 = customServo(servoPin3,90);
 
 void setup() {
   Serial.begin(9600);
+  Servo1.attach();
+  Servo2.attach();
+  Servo3.attach();
 }
 
 void loop() {
+  Servo1.linear(0,5);
+  Servo1.linear(200,5);
+  Servo2.linear(0);
+  Servo2.linear(180);
+  Servo3.linear(0,100);
+  Servo3.linear(180,100);
   delay(200);
-  Serial.println(cusServo1.getServoPos());
-  cusServo1.linear(45);
-  Serial.println(cusServo1.getServoPos());
-  cusServo1.linear(180);
-  Serial.println(cusServo1.getServoPos());
-  cusServo1.linear(90);
-}
-
-
-void translate(int servoPin, int position){
-  for (int pos = s1Pos; pos <= 185; pos++) {  // go from 0-180 degrees
-    myservo.write(servoPin1, pos);        // set the servo position (degrees)
-    delay(5);
-  }
 }
